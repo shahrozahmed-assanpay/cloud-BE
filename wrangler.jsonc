@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "onboarding-portal-assanpay-be",
+  "name": "assanpay-be",
   "main": "src/index.ts",
   "compatibility_date": "2026-05-31",
   "compatibility_flags": ["nodejs_compat"],
