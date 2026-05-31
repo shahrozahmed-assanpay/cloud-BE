@@ -1,0 +1,37 @@
+{
+  "name": "onboarding-portal-assanpay-BE",
+  "scripts": {
+    "dev": "wrangler dev",
+    "dev:bun": "bun run --hot src/index.ts",
+    "deploy": "wrangler deploy",
+    "deploy:dry-run": "wrangler deploy --dry-run",
+    "cf:check": "wrangler deploy --dry-run",
+    "cf:types": "wrangler types",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "bun run src/db/migrate.ts",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.8",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.12.23",
+    "hono-rate-limiter": "^0.5.3",
+    "jose": "^6.2.3",
+    "nanoid": "^5.1.11",
+    "postgres": "^3.4.9",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "resend": "^6.12.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260531.1",
+    "@types/bun": "latest",
+    "@types/node": "^25.9.1",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "drizzle-kit": "^0.31.10",
+    "wrangler": "^4.95.0"
+  }
+}
