@@ -1,9 +1,9 @@
 import { deleteCookie, getCookie, setCookie } from 'hono/cookie'
 import { Hono } from 'hono'
 import { csrf } from 'hono/csrf'
-import { rateLimiter } from 'hono-rate-limiter'
 
 import { env } from '../../config/env'
+import { createRateLimiter } from '../../middleware/rate-limiter'
 import { zodValidator } from '../../lib/validators'
 import type { AppEnv } from '../../types/auth'
 import {
@@ -34,16 +34,14 @@ function getCookieOptions() {
   }
 }
 
-const authRateLimiter = rateLimiter({
+const authRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000,
   limit: 15,
-  standardHeaders: 'draft-6',
   keyGenerator: (c) =>
     c.req.header('x-forwarded-for') ??
     c.req.header('cf-connecting-ip') ??
     'unknown',
-  handler: (c) =>
-    c.json({ error: 'Too many attempts. Please try again later.' }, 429),
+  message: 'Too many attempts. Please try again later.',
 })
 
 export const authRoutes = new Hono<AppEnv>()
