@@ -12,8 +12,10 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
+    "@noble/hashes": "^2.2.0",
     "@react-email/components": "^1.0.12",
     "@react-email/render": "^2.0.8",
+    "bcryptjs": "^3.0.3",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.23",
     "jose": "^6.2.3",

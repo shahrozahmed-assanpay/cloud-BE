@@ -9,7 +9,7 @@ import {
   verifyRefreshToken,
 } from '../../lib/auth'
 import { AppError } from '../../lib/errors'
-import { hashToken } from '../../lib/security'
+import { hashPassword, hashToken, verifyPassword } from '../../lib/security'
 import type { RoleType, SessionUser } from '../../types/auth'
 import { getLinkDeadlineSettings } from '../configuration/configuration.service'
 
@@ -131,7 +131,7 @@ export async function registerAdmin(input: {
     username: input.username,
   })
 
-  const passwordHash = await Bun.password.hash(input.password)
+  const passwordHash = await hashPassword(input.password)
 
   const [createdUser] = await getDb()
     .insert(users)
@@ -173,10 +173,7 @@ export async function login(input: {
     throw new AppError(401, 'Set your password before logging in.')
   }
 
-  const passwordMatches = await Bun.password.verify(
-    input.password,
-    user.passwordHash,
-  )
+  const passwordMatches = await verifyPassword(input.password, user.passwordHash)
 
   if (!passwordMatches) {
     throw new AppError(401, 'Invalid email or password.')
@@ -382,7 +379,7 @@ export async function setPasswordWithToken(input: {
   password: string
 }) {
   const row = await loadValidPasswordToken(input.token)
-  const passwordHash = await Bun.password.hash(input.password)
+  const passwordHash = await hashPassword(input.password)
 
   const [updatedUser] = await getDb().transaction(async (tx) => {
     const [updated] = await tx
@@ -435,7 +432,7 @@ export async function createManagedUser(
     username: input.username,
   })
 
-  const passwordHash = await Bun.password.hash(input.password)
+  const passwordHash = await hashPassword(input.password)
 
   const [createdUser] = await getDb()
     .insert(users)
